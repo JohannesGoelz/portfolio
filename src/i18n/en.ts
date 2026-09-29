@@ -113,7 +113,6 @@ export const en: Translation = {
   contactTitle: "A good idea starts\nwith a conversation.",
   contactText:
     "Technology, a shared project or a fresh perspective – I'd love to connect.",
-  emailTodo: "TODO · Add email address",
   repoTodo: "TODO · Link GitHub repository",
   footer: "Built with curiosity.",
 };

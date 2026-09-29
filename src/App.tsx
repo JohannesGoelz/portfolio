@@ -10,7 +10,6 @@ import {
   MapPin,
   Linkedin,
   Github,
-  Mail,
   Plus,
   Minus,
   MoveUpRight,
@@ -347,10 +346,9 @@ export default function App() {
           <h1 id="profile-name">
             JOHANNES GÖLZ<span>.</span>
           </h1>
-          <p className={s.bio}>
-            {de
-              ? "Ich mag klare Gedanken und gute Software. Am KIT verbinde ich Informatik und Mathematik – und beschäftige mich mit Machine Learning, Daten und Backend-Entwicklung."
-              : "I like clear thinking and good software. At KIT, I bring together computer science and mathematics – exploring machine learning, data and backend development."}
+          <p className={s.bio} lang="en">
+            Problemsolver who focuses on writing clean, extensible and efficient code.
+            Trying to make the web a better place.
           </p>
           <a className={s.profileCta} href="#projects">
             {de ? "Ein Blick auf meine Arbeit" : "Explore my work"}
@@ -378,11 +376,6 @@ export default function App() {
               >
                 <Github size={20} />
               </a>
-              {profile.email && (
-                <a href={`mailto:${profile.email}`} aria-label="E-Mail">
-                  <Mail size={20} />
-                </a>
-              )}
             </div>
           </div>
           <p className={s.profileNote}>
@@ -580,15 +573,6 @@ export default function App() {
                 <Github size={19} />
                 GitHub
               </OutLink>
-              {profile.email ? (
-                <a href={`mailto:${profile.email}`}>
-                  <Mail size={19} />
-                  {profile.email}
-                  <ArrowUpRight size={16} />
-                </a>
-              ) : (
-                <span className={s.todo}>{t.emailTodo}</span>
-              )}
             </div>
             <p className={s.contactLocation}>
               <MapPin size={14} />

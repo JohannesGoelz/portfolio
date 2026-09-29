@@ -18,8 +18,8 @@ Vite `base` ist `/` für die Custom Domain. `dist/` enthält die statische Websi
 ## Inhalte
 
 - `src/i18n/de.ts` und `en.ts`: Texte.
-- `src/config.ts`: Kontakt-, Foto- und Projektlinks.
-- TODO: freigegebene öffentliche E-Mail, Originalfoto, Play-Store-URL, Fraunhofer-Link, Tools, Sprachkenntnisse und genaue Zeiträume.
+- `src/config.ts`: Profil-, Foto- und Projektlinks.
+- TODO: Originalfoto, Play-Store-URL, Fraunhofer-Link, Tools, Sprachkenntnisse und genaue Zeiträume.
 - Grundlage sind der Nutzerauftrag und das ältere lokale Portfolio. Kein CV/Foto bereitgestellt; LinkedIn war nicht lesbar. Keine Telefonnummer veröffentlichen.
 - Studiengänge werden ohne unbelegten Abschlussstatus genannt. Das Monogramm ist ein Foto-Platzhalter. Kein CV-Download ohne freigegebenen CV.
 
@@ -54,3 +54,5 @@ Siehe `VERIFICATION.md` und die aktuelle Designprüfung in `design-qa.md`. Fonts
 - https://docs.codeberg.org/codeberg-pages/
 - https://docs.codeberg.org/codeberg-pages/using-custom-domain/
 - https://codeberg.org/Codeberg/org/src/branch/main/TermsOfUse.md#2-allowed-content-usage
+
+E-Mail wird auf Wunsch nicht angezeigt. Der englische Profiltext ist in beiden Sprachversionen identisch. Konkrete Kalenderdaten für Projekte und Arbeitserfahrung sind in den vorhandenen Unterlagen nicht belegt; bekannte Dauern bleiben sichtbar.

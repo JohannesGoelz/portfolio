@@ -118,7 +118,6 @@ export const de = {
   contactTitle: "Eine gute Idee beginnt\nmit einem Gespräch.",
   contactText:
     "Ob Technologie, ein gemeinsames Projekt oder ein neuer Blickwinkel – ich freue mich auf den Austausch.",
-  emailTodo: "TODO · E-Mail-Adresse ergänzen",
   repoTodo: "TODO · GitHub-Repo verknüpfen",
   footer: "Mit Neugier entwickelt.",
 };
