@@ -26,3 +26,7 @@ Live-Domain, Domainverfügbarkeit, zusätzliche DNS-Labels, Zertifikat, Codeberg
 - Ein zusätzlicher paralleler HTTPS-Test aus Node scheiterte an einem Verbindungs-Timeout. Die öffentliche Website und Fonts wurden anschließend/parallel erfolgreich über den Browser geladen. Kein vollständiger automatisierter Netzwerktest aller Live-Assets behauptet.
 - Der Übergangsbuild nutzt /portfolio/; die Quellkonfiguration bleibt wie gefordert auf / für die spätere Custom Domain.
 - Noch blockiert: Open-Domains-Login, damit Verfügbarkeit und DNS eingerichtet werden können. Foto, öffentliche E-Mail und CV fehlen weiterhin.
+
+## Vollständige Designüberarbeitung
+
+Neue Gestaltung nach http://thanos-pappas.com/ umgesetzt. Helle feste Profilspalte, roter Akzent, Dosis/Bitter, kompakter Lebenslauf und aufklappbare Projekte. Aktuelle Prüfung: design-qa.md. Der ältere Bericht zu Glaskarten und Space Grotesk beschreibt die abgelöste Version.

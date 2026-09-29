@@ -1,62 +1,610 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowUpRight, ArrowDown, Sun, Moon, Menu, X, MapPin, Code2, Braces, GraduationCap, Sparkles, Users, Linkedin, Mail, ArrowRight } from 'lucide-react';
-import { useLanguage } from './i18n/context';
-import { profile } from './config';
-import s from './App.module.css';
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  ArrowUpRight,
+  ArrowDown,
+  ArrowUp,
+  Sun,
+  Moon,
+  Menu,
+  X,
+  MapPin,
+  Linkedin,
+  Github,
+  Mail,
+  Plus,
+  Minus,
+  MoveUpRight,
+} from "lucide-react";
+import { useLanguage } from "./i18n/context";
+import { profile } from "./config";
+import s from "./App.module.css";
 
-const ids = ['about','experience','projects','education','skills','community','contact'];
-function LanguageSwitch() {
-  const {language, setLanguage} = useLanguage();
-  return <div className={s.languages} aria-label="Language / Sprache">{(['de','en'] as const).map(l => <button key={l} lang={l} aria-pressed={language === l} onClick={() => setLanguage(l)}>{l.toUpperCase()}</button>)}</div>;
+const sectionIds = [
+  "education",
+  "experience",
+  "projects",
+  "skills",
+  "community",
+  "contact",
+];
+const labelIndex = [3, 1, 2, 4, 5, 6];
+function Languages() {
+  const { language, setLanguage } = useLanguage();
+  return (
+    <div className={s.languages} aria-label="Sprache / Language">
+      {(["de", "en"] as const).map((l) => (
+        <button
+          key={l}
+          lang={l}
+          aria-pressed={language === l}
+          onClick={() => setLanguage(l)}
+        >
+          {l.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
 }
-function Section({id, number, title, children}: {id:string; number:string; title:string; children:ReactNode}) {
-  const {t} = useLanguage();
-  return <section id={id} className={s.section} aria-labelledby={`${id}-title`}><div className={s.sectionLabel}><span>{number}</span>{t.nav[ids.indexOf(id)]}</div><h2 id={`${id}-title`}>{title}</h2>{children}</section>;
+function OutLink({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <a
+      href={href}
+      className={className}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+      <ArrowUpRight size={16} aria-hidden="true" />
+    </a>
+  );
 }
-function Tags({items}: {items:string[]}) { return <ul className={s.tags}>{items.map(item => <li key={item}>{item}</li>)}</ul>; }
-function ExternalLink({href, children, className}: {href:string;children:ReactNode;className?:string}) {return <a href={href} className={className} target="_blank" rel="noopener noreferrer">{children}<ArrowUpRight size={17} aria-hidden="true"/></a>;}
-
+function Network({ theme }: { theme: string }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    let width = 0,
+      height = 0,
+      frame = 0,
+      time = 0,
+      visible = true;
+    const nodes = Array.from({ length: 27 }, (_, i) => ({
+      x: ((i * 43 + 11) % 101) / 101,
+      y: ((i * 61 + 17) % 103) / 103,
+      phase: i * 1.7,
+    }));
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+      const points = nodes.map((n) => ({
+        x: n.x * width + Math.sin(time + n.phase) * 9,
+        y: n.y * height + Math.cos(time * 0.8 + n.phase) * 10,
+      }));
+      for (let i = 0; i < points.length; i++)
+        for (let j = i + 1; j < points.length; j++) {
+          const a = points[i],
+            b = points[j],
+            d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < 180) {
+            ctx.strokeStyle =
+              theme === "dark"
+                ? `rgba(200,196,186,${(1 - d / 180) * 0.14})`
+                : `rgba(73,79,76,${(1 - d / 180) * 0.13})`;
+            ctx.lineWidth = 0.7;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      for (const p of points) {
+        ctx.fillStyle = theme === "dark" ? "#b6b2a240" : "#56605c45";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+    const animate = () => {
+      time += 0.002;
+      render();
+      frame = requestAnimationFrame(animate);
+    };
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      const dpr = Math.min(devicePixelRatio, 2);
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      render();
+    };
+    const start = () => {
+      cancelAnimationFrame(frame);
+      render();
+      if (!media.matches && visible) frame = requestAnimationFrame(animate);
+    };
+    const observer = new ResizeObserver(resize);
+    observer.observe(canvas);
+    const visibility = () => {
+      visible = !document.hidden;
+      start();
+    };
+    resize();
+    start();
+    media.addEventListener("change", start);
+    document.addEventListener("visibilitychange", visibility);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      media.removeEventListener("change", start);
+      document.removeEventListener("visibilitychange", visibility);
+    };
+  }, [theme]);
+  return <canvas ref={ref} className={s.network} aria-hidden="true" />;
+}
+function Section({
+  id,
+  num,
+  title,
+  children,
+}: {
+  id: string;
+  num: string;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <section id={id} className={s.section} aria-labelledby={`${id}-title`}>
+      <div className={s.sectionHeading}>
+        <span>{num}</span>
+        <h2 id={`${id}-title`}>{title}</h2>
+      </div>
+      {children}
+    </section>
+  );
+}
+function Project({
+  title,
+  kind,
+  text,
+  tags,
+  href,
+  hrefText,
+  details,
+  index,
+}: {
+  title: string;
+  kind: string;
+  text: string;
+  tags: string[];
+  href: string;
+  hrefText: string;
+  details: string;
+  index: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const { language, t } = useLanguage();
+  const detailId = `project-${index}`;
+  return (
+    <article className={s.project}>
+      <div className={s.projectNumber}>{index}</div>
+      <div className={s.projectContent}>
+        <p className={s.kicker}>{kind}</p>
+        <h3>{title}</h3>
+        <p>{text}</p>
+        <ul className={s.tags}>
+          {tags.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+        <button
+          className={s.detailButton}
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          aria-controls={detailId}
+        >
+          {language === "de" ? "Über das Projekt" : "About this project"}
+          {open ? <Minus size={16} /> : <Plus size={16} />}
+        </button>
+        <div id={detailId} hidden={!open} className={s.projectDetails}>
+          <p>{details}</p>
+          {href ? (
+            <OutLink href={href}>{hrefText}</OutLink>
+          ) : (
+            <span className={s.todo}>{t.todoLink}</span>
+          )}
+        </div>
+      </div>
+      <MoveUpRight className={s.projectArrow} aria-hidden="true" size={26} />
+    </article>
+  );
+}
 export default function App() {
-  const {t, language} = useLanguage();
-  const [open,setOpen] = useState(false);
+  const { t, language } = useLanguage();
+  const de = language === "de";
+  const [menu, setMenu] = useState(false);
   const menuRef = useRef<HTMLButtonElement>(null);
-  const [theme,setTheme] = useState(() => {
-    try {const saved=localStorage.getItem('portfolio-theme'); if(saved==='light'||saved==='dark') return saved;} catch { /* Optional storage. */ }
-    return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  const [active, setActive] = useState("education");
+  const [theme, setTheme] = useState(() => {
+    try {
+      const saved = localStorage.getItem("portfolio-editorial-theme");
+      if (saved === "dark" || saved === "light") return saved;
+    } catch {}
+    return "light";
   });
-  useEffect(() => {document.documentElement.dataset.theme=theme; try {localStorage.setItem('portfolio-theme',theme);} catch { /* Optional storage. */ }},[theme]);
-  useEffect(() => {setOpen(false);},[language]);
   useEffect(() => {
-    if (!open) return;
-    const close = (e:KeyboardEvent) => {if(e.key==='Escape'){setOpen(false);menuRef.current?.focus();}};
-    document.addEventListener('keydown',close);return ()=>document.removeEventListener('keydown',close);
-  },[open]);
+    document.documentElement.dataset.theme = theme;
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", theme === "light" ? "#f7f7f4" : "#161a19");
+    try {
+      localStorage.setItem("portfolio-editorial-theme", theme);
+    } catch {}
+  }, [theme]);
   useEffect(() => {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add(s.revealed);observer.unobserve(entry.target);}}),{threshold:0.06});
-    document.querySelectorAll(`.${s.section}`).forEach(el=>{el.classList.add(s.reveal);observer.observe(el);});
-    return ()=>observer.disconnect();
-  },[]);
-  return <>
-    <a className={s.skip} href="#main">{t.skip}</a>
-    <div className={s.ambient} aria-hidden="true"><i/><i/><i/></div>
-    <header className={s.header}><a className={s.logo} href="#" aria-label="Johannes Gölz">jg<span>.</span></a>
-      <nav className={`${s.nav} ${open?s.open:''}`} id="navigation" aria-label={language==='de'?'Hauptnavigation':'Main navigation'}>{ids.map((id,i)=><a href={`#${id}`} key={id} onClick={()=>setOpen(false)}>{t.nav[i]}</a>)}</nav>
-      <div className={s.controls}><LanguageSwitch/><span className={s.divider}/><button className={s.iconButton} aria-label={theme==='dark'?t.light:t.dark} onClick={()=>setTheme(theme==='dark'?'light':'dark')}>{theme==='dark'?<Sun size={18}/>:<Moon size={18}/>}</button><button ref={menuRef} className={`${s.iconButton} ${s.menu}`} aria-controls="navigation" aria-expanded={open} aria-label={open?t.close:t.menu} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></div>
-    </header>
-    <main id="main" className={s.main}>
-      <section className={s.hero} aria-labelledby="hero-title"><div className={s.heroCopy}><p className={s.eyebrow}><span/>{t.eyebrow}</p><p className={s.greeting}>{t.hello}</p><h1 id="hero-title">Johannes<br/><span>Gölz<span className={s.period}>.</span></span></h1><h2 className={s.tagline}>{t.headline}</h2><p className={s.intro}>{t.intro}</p><div className={s.actions}><a className={s.primary} href="#contact">{t.contact}<ArrowUpRight size={18}/></a><ExternalLink href={profile.linkedin} className={s.secondary}>LinkedIn</ExternalLink></div><div className={s.heroMeta}><MapPin size={14}/>{t.location}<span>·</span><span>KIT</span></div></div>
-        <div className={s.heroVisual}><div className={s.orbit} aria-hidden="true"/><div className={`${s.glass} ${s.profileCard}`}><div className={s.cardTop}><span className={s.tinyDots}><i/><i/><i/></span><span>hello_world</span><Code2 size={16}/></div><div className={s.portrait}>{profile.portrait?<img src={profile.portrait} alt="Johannes Gölz" width="320" height="320"/>:<div className={s.monogram}><span aria-hidden="true">JG</span><small>{t.portrait}</small></div>}</div><div className={s.profileCaption}><strong>Johannes Gölz</strong><span>{t.portraitNote}</span></div><div className={s.cardBottom}><span><i/>Karlsruhe, DE</span><span>49.01° N · 8.40° E</span></div></div><div className={`${s.glass} ${s.floating} ${s.floatingTop}`}><Braces size={19}/><span>Backend Development</span></div><div className={`${s.glass} ${s.floating} ${s.floatingBottom}`}><Sparkles size={18}/><span>Machine Learning</span></div><span className={s.formula} aria-hidden="true">∑ ideas → possibilities</span></div>
-      </section>
-      <div className={s.heroFoot}><a href="#about"><ArrowDown size={15}/>{t.scroll}</a><span>MATHEMATICS · CODE · CURIOSITY</span></div>
-      <Section id="about" number="01" title={t.aboutTitle}><div className={s.aboutGrid}><div className={s.aboutText}>{t.about.map(p=><p key={p}>{p}</p>)}</div><aside className={`${s.glass} ${s.focus}`}><Sparkles/><p className={s.eyebrow}>{t.focus}</p><h3>{t.focusTitle}</h3><p>{t.focusText}</p><div className={s.focusSymbols} aria-hidden="true">∑ <span>×</span> {'{ }'} <span>→</span> ✧</div></aside></div></Section>
-      <Section id="experience" number="02" title={t.experienceTitle}><p className={s.sectionIntro}>{t.experienceNote}</p><div className={s.timeline}>{t.jobs.map((job,i)=><article className={`${s.glass} ${s.job}`} key={job.org}><div className={s.jobIcon}>{i===2?<GraduationCap size={22}/>:<Code2 size={22}/>}</div><div><div className={s.jobHeader}><span>{job.org}</span><span className={s.duration}>{job.duration}</span></div><h3>{job.role}</h3><p>{job.text}</p><Tags items={job.tags}/></div></article>)}</div></Section>
-      <Section id="projects" number="03" title={t.projectsTitle}><div className={s.projectGrid}><article className={`${s.glass} ${s.project}`}><div className={`${s.projectArt} ${s.appArt}`} role="img" aria-label={t.illustrative}><div className={s.phone}><div className={s.phoneNotch}/><div className={s.appLogo}><Braces size={26}/></div><div className={s.phoneLines}><i/><i/></div><div className={s.phoneTiles}><i/><i/><i/><i/></div><div className={s.phoneBar}/></div><span className={s.artWord}>flutter<span>01 / MOBILE</span></span></div><div className={s.projectBody}><Tags items={['Flutter','Dart','Google Play']}/><h3>{t.appTitle}</h3><p>{t.appText}</p>{profile.playStore?<ExternalLink href={profile.playStore}>{t.appLink}</ExternalLink>:<span className={s.todo}>{t.todoLink}</span>}</div></article><article className={`${s.glass} ${s.project}`}><div className={`${s.projectArt} ${s.backendArt}`} role="img" aria-label={t.illustrative}><div className={s.serverDiagram}><span>WEB APP</span><i/><div>{'{'}<b>Java</b>{'}'}</div><i/><span>BACKEND</span></div><span className={s.artWord}>connected<span>02 / WEB APP</span></span></div><div className={s.projectBody}><Tags items={['Java','Backend','Fraunhofer']}/><h3>{t.backendTitle}</h3><p>{t.backendText}</p>{profile.fraunhofer?<ExternalLink href={profile.fraunhofer}>{t.backendLink}</ExternalLink>:<span className={s.todo}>{t.todoLink}</span>}</div></article></div></Section>
-      <Section id="education" number="04" title={t.educationTitle}><div className={s.educationGrid}>{t.education.map((item,i)=><article className={`${s.glass} ${s.education}`} key={item.degree+item.subject}><GraduationCap size={26}/><p className={s.degree}>{item.degree}</p><h3>{item.subject}</h3><p>KIT · Karlsruhe</p><span className={s.educationNote}>{i===0&&<i/>}{item.note}</span></article>)}</div></Section>
-      <Section id="skills" number="05" title={t.skillsTitle}><div className={s.skillsGrid}>{t.skillGroups.map((group,i)=><article className={`${s.glass} ${s.skill}`} key={group}><span className={s.skillIndex}>0{i+1}</span><h3>{group}</h3><Tags items={t.skills[i]}/></article>)}</div></Section>
-      <Section id="community" number="06" title={t.engagementTitle}><div className={s.communityGrid}>{t.engagement.map((item,i)=><article className={`${s.glass} ${s.community}`} key={item.title}><div className={s.communityIcon}>{i===0?<Sparkles/>:<Users/>}</div><div><span className={s.smallLabel}>{item.tag}</span><h3>{item.title}</h3><p>{item.text}</p></div></article>)}</div></Section>
-      <section id="contact" className={`${s.section} ${s.contact} ${s.glass}`} aria-labelledby="contact-title"><p className={s.eyebrow}>07 / {t.nav[6]}</p><h2 id="contact-title">{t.contactTitle}</h2><p>{t.contactText}</p><div className={s.actions}>{profile.email?<a className={s.primary} href={`mailto:${profile.email}`}><Mail size={18}/>{profile.email}<ArrowUpRight size={17}/></a>:<span className={s.todo}>{t.emailTodo}</span>}<ExternalLink href={profile.linkedin} className={s.secondary}><Linkedin size={17}/>LinkedIn</ExternalLink></div><span className={s.contactLocation}><MapPin size={15}/>{t.location}</span><ArrowRight className={s.contactArrow} aria-hidden="true"/></section>
-    </main>
-    <footer className={s.footer}><div><a className={s.logo} href="#">jg<span>.</span></a><span>© {new Date().getFullYear()} Johannes Gölz</span><span>{t.footer}</span></div><div><span>Built with Vite + React</span>{profile.repository?<ExternalLink href={profile.repository}>GitHub</ExternalLink>:<span className={s.todo}>{t.repoTodo}</span>}<LanguageSwitch/></div></footer>
-  </>;
+    setMenu(false);
+  }, [language]);
+  useEffect(() => {
+    if (!menu) return;
+    const escape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenu(false);
+        menuRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", escape);
+    return () => document.removeEventListener("keydown", escape);
+  }, [menu]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }),
+      { rootMargin: "-12% 0px -65% 0px", threshold: 0 },
+    );
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <>
+      <div id="top" />
+      <a className={s.skip} href="#main">
+        {t.skip}
+      </a>
+      <header className={s.mobileHeader}>
+        <a href="#profile" className={s.mobileBrand}>
+          JG<span>Johannes Gölz</span>
+        </a>
+        <div className={s.mobileControls}>
+          <Languages />
+          <button
+            ref={menuRef}
+            className={s.iconButton}
+            aria-expanded={menu}
+            aria-controls="section-nav"
+            aria-label={menu ? t.close : t.menu}
+            onClick={() => setMenu(!menu)}
+          >
+            {menu ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </header>
+      <aside className={s.profile} id="profile" aria-labelledby="profile-name">
+        <Network theme={theme} />
+        <div className={s.profileInner}>
+          <div className={s.profileTop}>
+            <span>JG / PORTFOLIO</span>
+            <div className={s.desktopControls}>
+              <Languages />
+              <button
+                className={s.iconButton}
+                aria-label={theme === "light" ? t.dark : t.light}
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              >
+                {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+              </button>
+            </div>
+          </div>
+          {profile.portrait ? (
+            <img
+              className={s.portrait}
+              src={profile.portrait}
+              alt="Johannes Gölz"
+              width="240"
+              height="240"
+            />
+          ) : (
+            <div className={s.identityIntro}>
+              <span>{de ? "Hallo, ich bin" : "Hello, I’m"}</span>
+              <span className={s.identityMark} aria-hidden="true">
+                jg.
+              </span>
+            </div>
+          )}
+          <div className={s.roleBand}>
+            <span>
+              {de
+                ? "Informatik & Mathematik"
+                : "Computer Science & Mathematics"}
+            </span>
+            <span className={s.roleDot} aria-hidden="true" />
+          </div>
+          <h1 id="profile-name">
+            JOHANNES GÖLZ<span>.</span>
+          </h1>
+          <p className={s.bio}>
+            {de
+              ? "Ich mag klare Gedanken und gute Software. Am KIT verbinde ich Informatik und Mathematik – und beschäftige mich mit Machine Learning, Daten und Backend-Entwicklung."
+              : "I like clear thinking and good software. At KIT, I bring together computer science and mathematics – exploring machine learning, data and backend development."}
+          </p>
+          <a className={s.profileCta} href="#projects">
+            {de ? "Ein Blick auf meine Arbeit" : "Explore my work"}
+            <ArrowDown size={17} />
+          </a>
+          <div className={s.profileBottom}>
+            <span className={s.location}>
+              <MapPin size={14} />
+              {t.location}
+            </span>
+            <div className={s.socials}>
+              <a
+                href={profile.linkedin}
+                aria-label="LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin size={20} />
+              </a>
+              <a
+                href={profile.repository}
+                aria-label="GitHub"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github size={20} />
+              </a>
+              {profile.email && (
+                <a href={`mailto:${profile.email}`} aria-label="E-Mail">
+                  <Mail size={20} />
+                </a>
+              )}
+            </div>
+          </div>
+          <p className={s.profileNote}>
+            {de
+              ? "Neugierig bleiben. Zusammenhänge verstehen."
+              : "Stay curious. Connect the dots."}
+          </p>
+        </div>
+      </aside>
+      <div className={s.content}>
+        <nav
+          className={`${s.nav} ${menu ? s.navOpen : ""}`}
+          id="section-nav"
+          aria-label={de ? "Hauptnavigation" : "Main navigation"}
+        >
+          {sectionIds.map((id, i) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              aria-current={active === id ? "location" : undefined}
+              onClick={() => setMenu(false)}
+            >
+              {t.nav[labelIndex[i]]}
+            </a>
+          ))}
+          <button
+            className={`${s.iconButton} ${s.mobileTheme}`}
+            aria-label={theme === "light" ? t.dark : t.light}
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          >
+            {theme === "light" ? <Moon size={17} /> : <Sun size={17} />}
+          </button>
+        </nav>
+        <main id="main" className={s.main}>
+          <Section id="education" num="01" title={t.nav[3]}>
+            <p className={s.sectionLead}>
+              {de
+                ? "Zwei Disziplinen, eine gemeinsame Neugier."
+                : "Two disciplines, one shared curiosity."}
+            </p>
+            <div className={s.timeline}>
+              {t.education.map((item, i) => (
+                <article
+                  className={s.education}
+                  key={item.degree + item.subject}
+                >
+                  <div className={s.entryHeading}>
+                    <h3>{item.degree}</h3>
+                    {i === 0 && (
+                      <span className={s.current}>
+                        {de ? "AKTUELL" : "CURRENT"}
+                      </span>
+                    )}
+                  </div>
+                  <h4>{item.subject}</h4>
+                  <p>
+                    {de
+                      ? "Karlsruher Institut für Technologie"
+                      : "Karlsruhe Institute of Technology"}
+                  </p>
+                  <span className={s.entryNote}>{item.note}</span>
+                </article>
+              ))}
+            </div>
+            <div className={s.note}>
+              <span>∩</span>
+              <p>
+                {de
+                  ? "Mathematische Grundlagen geben mir das Werkzeug, komplexe Zusammenhänge zu verstehen. Informatik gibt mir die Möglichkeit, daraus etwas zu entwickeln."
+                  : "Mathematical foundations help me understand complex connections. Computer science gives me the means to build on them."}
+              </p>
+            </div>
+          </Section>
+          <Section id="experience" num="02" title={t.nav[1]}>
+            <p className={s.sectionLead}>
+              {de
+                ? "Praxis, Perspektiven und Wissen, das weitergeht."
+                : "Practical experience. Different perspectives. Shared knowledge."}
+            </p>
+            <div className={s.timeline}>
+              {t.jobs.map((job) => (
+                <article className={s.job} key={job.org}>
+                  <div className={s.entryHeading}>
+                    <h3>{job.role}</h3>
+                    <span className={s.duration}>{job.duration}</span>
+                  </div>
+                  <h4>{job.org}</h4>
+                  <p>{job.text}</p>
+                  <ul className={s.plainTags}>
+                    {job.tags.map((tag) => (
+                      <li key={tag}>{tag}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </Section>
+          <Section id="projects" num="03" title={t.nav[2]}>
+            <p className={s.sectionLead}>
+              {de
+                ? "Von mobilen Ideen bis zur Software für die Forschung."
+                : "From mobile ideas to software for research."}
+            </p>
+            <Project
+              index="01"
+              kind={de ? "MOBILE ENTWICKLUNG" : "MOBILE DEVELOPMENT"}
+              title="Flutter App"
+              text={t.appText}
+              tags={["Flutter", "Dart", "Google Play"]}
+              href={profile.playStore}
+              hrefText={t.appLink}
+              details={
+                de
+                  ? "Ein eigenes App-Projekt mit Flutter. Die App wurde im Google Play Store veröffentlicht. Der direkte Store-Link wird noch ergänzt."
+                  : "An app project built with Flutter and published on Google Play. The direct store link will be added."
+              }
+            />
+            <Project
+              index="02"
+              kind={de ? "WEB & BACKEND" : "WEB & BACKEND"}
+              title="Fraunhofer WebApp"
+              text={t.backendText}
+              tags={["Java", "Backend", "WebApp"]}
+              href={profile.fraunhofer}
+              hrefText={t.backendLink}
+              details={
+                de
+                  ? "Im Fraunhofer-WebApp-Projekt habe ich am Java-Backend mitgearbeitet. Ein öffentlicher Projektlink und weitere freigegebene Informationen werden noch ergänzt."
+                  : "I contributed to the Java backend of a Fraunhofer web app project. A public project link and further approved information will be added."
+              }
+            />
+          </Section>
+          <Section
+            id="skills"
+            num="04"
+            title={de ? "Skills & Schwerpunkte" : "Skills & interests"}
+          >
+            <p className={s.sectionLead}>
+              {de
+                ? "Die Themen und Werkzeuge, mit denen ich arbeite."
+                : "The ideas and tools I work with."}
+            </p>
+            <div className={s.skills}>
+              {t.skillGroups.map((group, i) => (
+                <div className={s.skillGroup} key={group}>
+                  <h3>{group}</h3>
+                  <ul>
+                    {t.skills[i].map((skill) => (
+                      <li
+                        className={
+                          skill.startsWith("TODO") ? s.todo : undefined
+                        }
+                        key={skill}
+                      >
+                        {!skill.startsWith("TODO") && (
+                          <span aria-hidden="true">/</span>
+                        )}
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </Section>
+          <Section id="community" num="05" title={t.nav[5]}>
+            <p className={s.sectionLead}>
+              {de
+                ? "Gute Ideen wachsen im Austausch."
+                : "Good ideas grow through collaboration."}
+            </p>
+            {t.engagement.map((item, i) => (
+              <article className={s.engagement} key={item.title}>
+                <span className={s.engagementNumber}>0{i + 1}</span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <span className={s.entryNote}>{item.tag}</span>
+                </div>
+              </article>
+            ))}
+          </Section>
+          <Section
+            id="contact"
+            num="06"
+            title={de ? "Lass uns sprechen." : "Let’s talk."}
+          >
+            <p className={s.contactIntro}>{t.contactText}</p>
+            <div className={s.contactLinks}>
+              <OutLink href={profile.linkedin}>
+                <Linkedin size={19} />
+                LinkedIn
+              </OutLink>
+              <OutLink href={profile.repository}>
+                <Github size={19} />
+                GitHub
+              </OutLink>
+              {profile.email ? (
+                <a href={`mailto:${profile.email}`}>
+                  <Mail size={19} />
+                  {profile.email}
+                  <ArrowUpRight size={16} />
+                </a>
+              ) : (
+                <span className={s.todo}>{t.emailTodo}</span>
+              )}
+            </div>
+            <p className={s.contactLocation}>
+              <MapPin size={14} />
+              {t.location}
+            </p>
+          </Section>
+        </main>
+        <footer className={s.footer}>
+          <span>© {new Date().getFullYear()} Johannes Gölz</span>
+          <span>Vite + React</span>
+          <Languages />
+          <a href="#top" aria-label={de ? "Nach oben" : "Back to top"}>
+            <ArrowUp size={17} />
+          </a>
+        </footer>
+      </div>
+    </>
+  );
 }

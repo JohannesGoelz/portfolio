@@ -1,6 +1,6 @@
 # Johannes Gölz — Portfolio
 
-Zweisprachiges Portfolio mit Vite, React, TypeScript und CSS Modules. Keine Cookies, Analytics, externen Fonts oder Kontakt-Backends. Sprache und Theme werden in localStorage gespeichert; blockierter Speicher wird abgefangen.
+Zweisprachiges Portfolio mit Vite, React, TypeScript und CSS Modules. Das aktuelle Design orientiert sich am Aufbau von thanos-pappas.com: feste Profilspalte, heller Lebenslauf, rote Akzente, Dosis und Bitter als lokal gehostete Schriften. Keine Cookies, Analytics, externen Fonts oder Kontakt-Backends. Sprache und Theme werden in localStorage gespeichert; blockierter Speicher wird abgefangen.
 
 ## Entwicklung
 
@@ -46,7 +46,7 @@ Domainverfügbarkeit und verschachtelte Labels sind noch nicht im Dashboard gepr
 
 ## Prüfung
 
-Siehe `VERIFICATION.md`. Fonts werden vom gleichen Host geladen. Externe Profile öffnen erst beim Klick. Der Host kann technische Server-Logs führen.
+Siehe `VERIFICATION.md` und die aktuelle Designprüfung in `design-qa.md`. Fonts werden vom gleichen Host geladen. Externe Profile öffnen erst beim Klick. Der Host kann technische Server-Logs führen.
 
 ## Quellen
 
