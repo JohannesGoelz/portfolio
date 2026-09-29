@@ -173,35 +173,14 @@
 .iconButton:hover {
   color: var(--red);
 }
-.identityIntro {
-  padding-top: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 215px;
-}
-.identityIntro > span:first-child {
-  font-family: Bitter, serif;
-  font-style: italic;
-  font-size: 15px;
-  color: var(--muted);
-}
-.identityMark {
-  font-family: Dosis, sans-serif;
-  font-weight: 600;
-  font-size: 118px;
-  line-height: 1.05;
-  letter-spacing: -8px;
-  color: var(--ink);
-}
 .portrait {
-  height: 215px;
-  width: 215px;
-  object-fit: cover;
+  display: block;
+  height: 245px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
   align-self: center;
-  margin: 30px 0 20px;
-  filter: grayscale(1);
+  margin: 22px auto 0;
 }
 .roleBand {
   background: var(--red);
@@ -679,11 +658,8 @@
   .profileTop {
     font-size: 13px;
   }
-  .identityIntro {
-    min-height: 30vh;
-  }
-  .identityMark {
-    font-size: 170px;
+  .portrait {
+    height: 320px;
   }
   .profile h1 {
     font-size: 72px;
@@ -770,11 +746,8 @@
   .bio {
     font-size: 15px;
   }
-  .identityIntro {
-    min-height: 190px;
-  }
-  .identityMark {
-    font-size: 105px;
+  .portrait {
+    height: 210px;
   }
   .profileBottom {
     flex-direction: column;
@@ -872,12 +845,8 @@
   .desktopControls {
     display: none;
   }
-  .identityIntro {
-    min-height: 165px;
-    padding-top: 20px;
-  }
-  .identityMark {
-    font-size: 105px;
+  .portrait {
+    height: 260px;
   }
   .roleBand {
     margin: 15px 0 22px;
@@ -1024,14 +993,8 @@
   .profileInner {
     padding: 25px 25px 27px;
   }
-  .identityIntro {
-    min-height: 150px;
-  }
-  .identityIntro > span:first-child {
-    font-size: 13px;
-  }
-  .identityMark {
-    font-size: 95px;
+  .portrait {
+    height: 230px;
   }
   .roleBand {
     font-size: 22px;
@@ -1142,12 +1105,8 @@
     padding-top: 20px;
     padding-bottom: 20px;
   }
-  .identityIntro {
-    min-height: 145px;
-    padding-top: 13px;
-  }
-  .identityMark {
-    font-size: 85px;
+  .portrait {
+    height: 190px;
   }
   .roleBand {
     margin-top: 8px;

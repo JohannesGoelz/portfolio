@@ -319,22 +319,13 @@ export default function App() {
               </button>
             </div>
           </div>
-          {profile.portrait ? (
-            <img
-              className={s.portrait}
-              src={profile.portrait}
-              alt="Johannes Gölz"
-              width="240"
-              height="240"
-            />
-          ) : (
-            <div className={s.identityIntro}>
-              <span>{de ? "Hallo, ich bin" : "Hello, I’m"}</span>
-              <span className={s.identityMark} aria-hidden="true">
-                jg.
-              </span>
-            </div>
-          )}
+          <img
+            className={s.portrait}
+            src={`${import.meta.env.BASE_URL}${profile.portrait}`}
+            alt="Johannes Gölz"
+            width="1086"
+            height="1448"
+          />
           <div className={s.roleBand}>
             <span>
               {de

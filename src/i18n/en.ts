@@ -24,8 +24,6 @@ export const en: Translation = {
   projects: "Explore projects",
   scroll: "Discover more",
   location: "Karlsruhe, Germany",
-  portrait: "Portrait coming soon",
-  portraitNote: "Computer science ∩ Mathematics",
   aboutTitle: "Where theory meets\npossibility.",
   about: [
     "I'm interested in turning mathematical foundations into practical software. My studies at KIT bring together computer science and mathematics; I'm currently pursuing a master's in computer science.",

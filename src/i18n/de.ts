@@ -23,8 +23,6 @@ export const de = {
   projects: "Projekte entdecken",
   scroll: "Mehr entdecken",
   location: "Karlsruhe, Deutschland",
-  portrait: "Profilfoto folgt",
-  portraitNote: "Informatik ∩ Mathematik",
   aboutTitle: "Zwischen Theorie\nund Möglichkeiten.",
   about: [
     "Mich interessiert, wie aus mathematischen Grundlagen praktische Software wird. Mein Weg am KIT verbindet Informatik und Mathematik; aktuell vertiefe ich Informatik im Master.",
