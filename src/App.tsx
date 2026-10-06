@@ -176,6 +176,7 @@ function Section({
 function Project({
   title,
   kind,
+  date,
   text,
   tags,
   href,
@@ -185,6 +186,7 @@ function Project({
 }: {
   title: string;
   kind: string;
+  date: string;
   text: string;
   tags: string[];
   href: string;
@@ -199,7 +201,10 @@ function Project({
     <article className={s.project}>
       <div className={s.projectNumber}>{index}</div>
       <div className={s.projectContent}>
-        <p className={s.kicker}>{kind}</p>
+        <div className={s.projectMeta}>
+          <p className={s.kicker}>{kind}</p>
+          <span className={s.duration}>{date}</span>
+        </div>
         <h3>{title}</h3>
         <p>{text}</p>
         <ul className={s.tags}>
@@ -415,11 +420,14 @@ export default function App() {
                 >
                   <div className={s.entryHeading}>
                     <h3>{item.degree}</h3>
-                    {i === 0 && (
-                      <span className={s.current}>
-                        {de ? "AKTUELL" : "CURRENT"}
-                      </span>
-                    )}
+                    <div className={s.entryMeta}>
+                      <span className={s.duration}>{item.duration}</span>
+                      {i === 0 && (
+                        <span className={s.current}>
+                          {de ? "AKTUELL" : "CURRENT"}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <h4>{item.subject}</h4>
                   <p>
@@ -448,7 +456,7 @@ export default function App() {
             </p>
             <div className={s.timeline}>
               {t.jobs.map((job) => (
-                <article className={s.job} key={job.org}>
+                <article className={s.job} key={job.role + job.org}>
                   <div className={s.entryHeading}>
                     <h3>{job.role}</h3>
                     <span className={s.duration}>{job.duration}</span>
@@ -473,6 +481,7 @@ export default function App() {
             <Project
               index="01"
               kind={de ? "MOBILE ENTWICKLUNG" : "MOBILE DEVELOPMENT"}
+              date="09/2020 – 08/2021"
               title="Flutter App"
               text={t.appText}
               tags={["Flutter", "Dart", "Google Play"]}
@@ -487,6 +496,7 @@ export default function App() {
             <Project
               index="02"
               kind={de ? "WEB & BACKEND" : "WEB & BACKEND"}
+              date="10/2022 – 03/2023"
               title="Fraunhofer WebApp"
               text={t.backendText}
               tags={["Java", "Backend", "WebApp"]}
@@ -504,11 +514,7 @@ export default function App() {
             num="04"
             title={de ? "Skills & Schwerpunkte" : "Skills & interests"}
           >
-            <p className={s.sectionLead}>
-              {de
-                ? "Die Themen und Werkzeuge, mit denen ich arbeite."
-                : "The ideas and tools I work with."}
-            </p>
+            <p className={s.sectionLead}>{t.skillsTitle}</p>
             <div className={s.skills}>
               {t.skillGroups.map((group, i) => (
                 <div className={s.skillGroup} key={group}>
@@ -544,7 +550,10 @@ export default function App() {
                 <div>
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
-                  <span className={s.entryNote}>{item.tag}</span>
+                  <div className={s.engagementMeta}>
+                    <span className={s.duration}>{item.duration}</span>
+                    <span className={s.entryNote}>{item.tag}</span>
+                  </div>
                 </div>
               </article>
             ))}
@@ -552,9 +561,8 @@ export default function App() {
           <Section
             id="contact"
             num="06"
-            title={de ? "Lass uns sprechen." : "Let’s talk."}
+            title="Kontakt"
           >
-            <p className={s.contactIntro}>{t.contactText}</p>
             <div className={s.contactLinks}>
               <OutLink href={profile.linkedin}>
                 <Linkedin size={19} />

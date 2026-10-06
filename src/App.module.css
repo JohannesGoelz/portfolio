@@ -383,6 +383,12 @@
 .entryHeading h3 {
   font-size: 21px;
 }
+.entryMeta,
+.engagementMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
 .current {
   font-size: 8px;
   color: var(--red);
@@ -479,6 +485,15 @@
   letter-spacing: 0.13em;
   color: var(--red);
   font-weight: 600;
+}
+.projectMeta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+.projectMeta .kicker {
+  margin: 0;
 }
 .project h3 {
   font-size: 27px;
