@@ -1,4 +1,3 @@
-// TODO: Confirm final domain after Open Domains registration.
 export const profile = {
   portrait: "portrait.png",
   linkedin: "https://www.linkedin.com/in/johannes-goelz-a543a7209/",
