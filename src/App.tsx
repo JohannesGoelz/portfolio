@@ -399,8 +399,8 @@ export default function App() {
           </div>
           <p className={s.profileNote}>
             {de
-              ? "Neugierig bleiben. Zusammenhänge verstehen."
-              : "Stay curious. Connect the dots."}
+              ? "Neugierig bleiben."
+                : "Stay curious."}
           </p>
         </div>
       </aside>
@@ -432,8 +432,8 @@ export default function App() {
           <Section id="education" num="01" title={t.nav[3]}>
             <p className={s.sectionLead}>
               {de
-                ? "Zwei Disziplinen, eine gemeinsame Neugier."
-                : "Two disciplines, one shared curiosity."}
+                ? "Angefangen habe ich mit meinem Bachelorstudium der Informatik. Besonders die Mathematik, vor allem Algebra, hat mir in den ersten Semestern viel Spaß gemacht. Deshalb habe ich mich entschieden, parallel zur Informatik auch Mathematik zu studieren."
+                : "I began with a bachelor's degree in computer science. I particularly enjoyed mathematics, especially algebra, during my first semesters. That is why I decided to study mathematics alongside computer science."}
             </p>
             <div className={s.timeline}>
               {t.education.map((item, i) => (
@@ -462,14 +462,6 @@ export default function App() {
                 </article>
               ))}
             </div>
-            <div className={s.note}>
-              <span>∩</span>
-              <p>
-                {de
-                  ? "Angefangen habe ich mit meinem Bachelorstudium der Informatik. Besonders die Mathematik – vor allem Algebra – hat mir in den ersten Semestern viel Spaß gemacht. Deshalb habe ich mich entschieden, parallel zur Informatik auch Mathematik zu studieren."
-                  : "I began with a bachelor's degree in computer science. I particularly enjoyed mathematics – especially algebra – during my first semesters. That is why I decided to study mathematics alongside computer science."}
-              </p>
-            </div>
           </Section>
           <Section id="experience" num="02" title={t.nav[1]}>
             <p className={s.sectionLead}>
@@ -488,7 +480,14 @@ export default function App() {
                     <h4>{job.org}</h4>
                     <OrganizationLogo organization={job.org} />
                   </div>
-                  <p>{job.text}</p>
+                  {job.text && <p>{job.text}</p>}
+                  {job.subroles.length > 0 && (
+                    <ul className={s.tutorSubroles}>
+                      {job.subroles.map((subrole) => (
+                        <li key={subrole}>{subrole}</li>
+                      ))}
+                    </ul>
+                  )}
                   <ul className={s.plainTags}>
                     {job.tags.map((tag) => (
                       <li key={tag}>{tag}</li>
