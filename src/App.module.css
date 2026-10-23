@@ -405,6 +405,47 @@
 .education p {
   font-size: 13px;
 }
+.organization {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.organization > p,
+.organization > h4 {
+  margin-right: auto;
+}
+.educationText {
+  margin-top: 9px;
+  line-height: 1.65;
+}
+.organizationLogo {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  min-width: 39px;
+  height: 24px;
+  padding: 0 6px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.organizationLogokit {
+  color: #009682;
+}
+.organizationLogoioannina {
+  color: #1d4f91;
+}
+.organizationLogoobjektkultur {
+  color: #e15547;
+}
+.organizationLogofraunhofer {
+  color: #007c6d;
+}
 .entryNote {
   display: inline-block;
   color: var(--red);
@@ -439,6 +480,9 @@
   margin: 8px 0 12px;
   color: var(--red);
   font-size: 12px;
+}
+.job .organization h4 {
+  margin-bottom: 12px;
 }
 .job p {
   font-size: 14px;

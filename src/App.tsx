@@ -234,6 +234,30 @@ function Project({
     </article>
   );
 }
+function OrganizationLogo({ organization }: { organization: string }) {
+  const brand = organization.includes("Fraunhofer")
+    ? "fraunhofer"
+    : organization.includes("Objektkultur")
+      ? "objektkultur"
+      : organization.includes("Ioannina")
+        ? "ioannina"
+        : "kit";
+  const labels = {
+    fraunhofer: "FhG",
+    objektkultur: "OK",
+    ioannina: "UoI",
+    kit: "KIT",
+  };
+  return (
+    <span
+      className={`${s.organizationLogo} ${s[`organizationLogo${brand}`]}`}
+      aria-label={`${organization} logo`}
+      role="img"
+    >
+      {labels[brand]}
+    </span>
+  );
+}
 export default function App() {
   const { t, language } = useLanguage();
   const de = language === "de";
@@ -343,8 +367,7 @@ export default function App() {
             JOHANNES GÖLZ<span>.</span>
           </h1>
           <p className={s.bio} lang="en">
-            Problemsolver who focuses on writing clean, extensible and efficient code.
-            Trying to make the web a better place.
+            Innovative problem solver.
           </p>
           <a className={s.profileCta} href="#projects">
             {de ? "Ein Blick auf meine Arbeit" : "Explore my work"}
@@ -422,7 +445,7 @@ export default function App() {
                     <h3>{item.degree}</h3>
                     <div className={s.entryMeta}>
                       <span className={s.duration}>{item.duration}</span>
-                      {i === 0 && (
+                      {item.current && (
                         <span className={s.current}>
                           {de ? "AKTUELL" : "CURRENT"}
                         </span>
@@ -430,11 +453,11 @@ export default function App() {
                     </div>
                   </div>
                   <h4>{item.subject}</h4>
-                  <p>
-                    {de
-                      ? "Karlsruher Institut für Technologie"
-                      : "Karlsruhe Institute of Technology"}
-                  </p>
+                  <div className={s.organization}>
+                    <p>{item.org}</p>
+                    <OrganizationLogo organization={item.org} />
+                  </div>
+                  {item.text && <p className={s.educationText}>{item.text}</p>}
                   <span className={s.entryNote}>{item.note}</span>
                 </article>
               ))}
@@ -443,16 +466,16 @@ export default function App() {
               <span>∩</span>
               <p>
                 {de
-                  ? "Mathematische Grundlagen geben mir das Werkzeug, komplexe Zusammenhänge zu verstehen. Informatik gibt mir die Möglichkeit, daraus etwas zu entwickeln."
-                  : "Mathematical foundations help me understand complex connections. Computer science gives me the means to build on them."}
+                  ? "Angefangen habe ich mit meinem Bachelorstudium der Informatik. Besonders die Mathematik – vor allem Algebra – hat mir in den ersten Semestern viel Spaß gemacht. Deshalb habe ich mich entschieden, parallel zur Informatik auch Mathematik zu studieren."
+                  : "I began with a bachelor's degree in computer science. I particularly enjoyed mathematics – especially algebra – during my first semesters. That is why I decided to study mathematics alongside computer science."}
               </p>
             </div>
           </Section>
           <Section id="experience" num="02" title={t.nav[1]}>
             <p className={s.sectionLead}>
               {de
-                ? "Praxis, Perspektiven und Wissen, das weitergeht."
-                : "Practical experience. Different perspectives. Shared knowledge."}
+                ? "Neben den sehr theoretischen Inhalten meines Studiums habe ich praktische Erfahrungen als Tutor, in der Backend-Entwicklung und in der Data Science gesammelt."
+                : "Alongside the highly theoretical content of my studies, I have gained practical experience as a tutor, in backend development and in data science."}
             </p>
             <div className={s.timeline}>
               {t.jobs.map((job) => (
@@ -461,7 +484,10 @@ export default function App() {
                     <h3>{job.role}</h3>
                     <span className={s.duration}>{job.duration}</span>
                   </div>
-                  <h4>{job.org}</h4>
+                  <div className={s.organization}>
+                    <h4>{job.org}</h4>
+                    <OrganizationLogo organization={job.org} />
+                  </div>
                   <p>{job.text}</p>
                   <ul className={s.plainTags}>
                     {job.tags.map((tag) => (
@@ -539,11 +565,6 @@ export default function App() {
             </div>
           </Section>
           <Section id="community" num="05" title={t.nav[5]}>
-            <p className={s.sectionLead}>
-              {de
-                ? "Gute Ideen wachsen im Austausch."
-                : "Good ideas grow through collaboration."}
-            </p>
             {t.engagement.map((item, i) => (
               <article className={s.engagement} key={item.title}>
                 <span className={s.engagementNumber}>0{i + 1}</span>
