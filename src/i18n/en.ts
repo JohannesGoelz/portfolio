@@ -37,12 +37,27 @@ export const en: Translation = {
   experienceNote: "Perspectives from practice and teaching.",
   jobs: [
     {
+      org: "ICIS",
+      role: "Internship · Analyst Power Markets",
+      duration: "04/2026 – present",
+      text: "",
+      tags: ["Power Markets", "Machine learning", "Data science"],
+      subroles: [],
+      highlights: [
+        "Electricity price forecasting using machine learning models",
+        "Quantitative analysis and backtesting of model performance",
+        "Graph Neural Networks and Explainable AI",
+        "Working with volatile Continuous Intraday data",
+      ],
+    },
+    {
       org: "Objektkultur",
       role: "Working student · Backend development",
       duration: "02/2025 – present",
       text: "Backend development with Azure and .NET technologies alongside my studies.",
       tags: ["Backend", "Azure", ".NET"],
       subroles: [],
+      highlights: [],
     },
     {
       org: "Institute for Artificial Intelligence in the Natural Sciences · KIT",
@@ -51,6 +66,7 @@ export const en: Translation = {
       text: "Research on implicit solvation with AI-powered models for molecules in solvents.",
       tags: ["Machine learning", "Deep learning", "Implicit solvation"],
       subroles: [],
+      highlights: [],
     },
     {
       org: "Karlsruhe Institute of Technology",
@@ -64,6 +80,7 @@ export const en: Translation = {
         "Digital Systems",
         "Computer Architecture",
       ],
+      highlights: [],
     },
     {
       org: "Fraunhofer Institute",
@@ -72,6 +89,7 @@ export const en: Translation = {
       text: "Developed a web application with a Java backend as part of a practical project.",
       tags: ["Java", "Backend", "Web app"],
       subroles: [],
+      highlights: [],
     },
   ],
   projectsTitle: "From an idea\nto an application.",

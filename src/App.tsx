@@ -235,6 +235,18 @@ function Project({
   );
 }
 function OrganizationLogo({ organization }: { organization: string }) {
+  if (organization === "ICIS") {
+    return (
+      <img
+        className={s.organizationImage}
+        src="https://media.licdn.com/dms/image/v2/D4E0BAQGAEf51_RdNtw/company-logo_100_100/company-logo_100_100/0/1728491168013/icis_logo?e=1794441600&v=beta&t=KN0S7P7xOPKdBEgfo27asaW6SH39VrQF2R2EeH3xBoY"
+        alt="ICIS logo"
+        width="36"
+        height="36"
+        referrerPolicy="no-referrer"
+      />
+    );
+  }
   const brand = organization.includes("Fraunhofer")
     ? "fraunhofer"
     : organization.includes("Objektkultur")
@@ -485,6 +497,13 @@ export default function App() {
                     <ul className={s.tutorSubroles}>
                       {job.subroles.map((subrole) => (
                         <li key={subrole}>{subrole}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {job.highlights.length > 0 && (
+                    <ul className={s.jobHighlights}>
+                      {job.highlights.map((highlight) => (
+                        <li key={highlight}>{highlight}</li>
                       ))}
                     </ul>
                   )}

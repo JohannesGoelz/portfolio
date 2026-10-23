@@ -36,12 +36,27 @@ export const de = {
   experienceNote: "Einblicke aus Praxis und Lehre.",
   jobs: [
     {
+      org: "ICIS",
+      role: "Praktikum · Analyst Power Markets",
+      duration: "04/2026 – heute",
+      text: "",
+      tags: ["Power Markets", "Machine Learning", "Data Science"],
+      subroles: [],
+      highlights: [
+        "Strompreisprognosen mit Machine-Learning-Modellen",
+        "Quantitative Analyse und Backtesting der Modellleistung",
+        "Graph Neural Networks und Explainable AI",
+        "Arbeit mit volatilen Continuous-Intraday-Daten",
+      ],
+    },
+    {
       org: "Objektkultur",
       role: "Werkstudent · Backend-Entwicklung",
       duration: "02/2025 – heute",
       text: "Backend-Entwicklung mit Azure- und .NET-Technologien parallel zum Studium.",
       tags: ["Backend", "Azure", ".NET"],
       subroles: [],
+      highlights: [],
     },
     {
       org: "Institute for Artificial Intelligence in the Natural Sciences · KIT",
@@ -50,6 +65,7 @@ export const de = {
       text: "Forschung zu impliziter Solvatisierung mit KI-gestützten Modellen für Moleküle in Lösungsmitteln.",
       tags: ["Machine Learning", "Deep Learning", "Implicit Solvation"],
       subroles: [],
+      highlights: [],
     },
     {
       org: "Karlsruher Institut für Technologie",
@@ -63,6 +79,7 @@ export const de = {
         "Digitale Systeme",
         "Rechnerstrukturen",
       ],
+      highlights: [],
     },
     {
       org: "Fraunhofer-Institut",
@@ -71,6 +88,7 @@ export const de = {
       text: "Entwicklung eines WebApp-Projekts mit Java-Backend im Rahmen eines Praxisprojekts.",
       tags: ["Java", "Backend", "WebApp"],
       subroles: [],
+      highlights: [],
     },
   ],
   projectsTitle: "Von der Idee\nin die Anwendung.",
