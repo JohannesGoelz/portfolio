@@ -235,39 +235,40 @@ function Project({
   );
 }
 function OrganizationLogo({ organization }: { organization: string }) {
-  if (organization === "ICIS") {
-    return (
-      <img
-        className={s.organizationImage}
-        src="https://media.licdn.com/dms/image/v2/D4E0BAQGAEf51_RdNtw/company-logo_100_100/company-logo_100_100/0/1728491168013/icis_logo?e=1794441600&v=beta&t=KN0S7P7xOPKdBEgfo27asaW6SH39VrQF2R2EeH3xBoY"
-        alt="ICIS logo"
-        width="36"
-        height="36"
-        referrerPolicy="no-referrer"
-      />
-    );
-  }
-  const brand = organization.includes("Fraunhofer")
-    ? "fraunhofer"
-    : organization.includes("Objektkultur")
-      ? "objektkultur"
-      : organization.includes("Ioannina")
-        ? "ioannina"
-        : "kit";
-  const labels = {
-    fraunhofer: "FhG",
-    objektkultur: "OK",
-    ioannina: "UoI",
-    kit: "KIT",
-  };
+  const logo =
+    organization === "ICIS"
+      ? {
+          src: "https://media.licdn.com/dms/image/v2/D4E0BAQGAEf51_RdNtw/company-logo_100_100/company-logo_100_100/0/1728491168013/icis_logo?e=1794441600&v=beta&t=KN0S7P7xOPKdBEgfo27asaW6SH39VrQF2R2EeH3xBoY",
+          alt: "ICIS logo",
+        }
+      : organization.includes("Fraunhofer")
+        ? {
+            src: "https://www.fraunhofer.de/content/dam/zv/fhg.svg",
+            alt: "Fraunhofer logo",
+          }
+        : organization.includes("Objektkultur")
+          ? {
+              src: "https://objektkultur.de/wp-content/uploads/2021/04/ok-logos-endorsed.svg",
+              alt: "Objektkultur logo",
+            }
+          : organization.includes("Ioannina")
+            ? {
+                src: "https://engineering.uoi.gr/wp-content/uploads/2018/07/logo-hr-en-78.png",
+                alt: "University of Ioannina School of Engineering logo",
+              }
+            : {
+                src: "https://www.mrt.kit.edu/railbench/assets/images/about_page/logos/KITlogo_4c_deutsch.png",
+                alt: "Karlsruhe Institute of Technology logo",
+              };
   return (
-    <span
-      className={`${s.organizationLogo} ${s[`organizationLogo${brand}`]}`}
-      aria-label={`${organization} logo`}
-      role="img"
-    >
-      {labels[brand]}
-    </span>
+    <img
+      className={s.organizationImage}
+      src={logo.src}
+      alt={logo.alt}
+      width="82"
+      height="36"
+      referrerPolicy="no-referrer"
+    />
   );
 }
 export default function App() {
